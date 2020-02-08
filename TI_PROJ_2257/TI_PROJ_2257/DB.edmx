@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AgendaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tarefa">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="titulo" Type="varchar" MaxLength="50" />
+          <Property Name="descricao" Type="varchar" MaxLength="500" />
+          <Property Name="importancia" Type="int" />
+          <Property Name="utilizador" Type="int" />
+        </EntityType>
+        <EntityType Name="utilizador">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="30" />
+          <Property Name="pass" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <Association Name="tarefa_utilizador">
+          <End Role="utilizador" Type="Self.utilizador" Multiplicity="0..1" />
+          <End Role="tarefa" Type="Self.tarefa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="utilizador">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tarefa">
+              <PropertyRef Name="utilizador" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AgendaModelStoreContainer">
+          <EntitySet Name="tarefa" EntityType="Self.tarefa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="utilizador" EntityType="Self.utilizador" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="tarefa_utilizador" Association="Self.tarefa_utilizador">
+            <End Role="utilizador" EntitySet="utilizador" />
+            <End Role="tarefa" EntitySet="tarefa" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AgendaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tarefa">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="titulo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="descricao" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="importancia" Type="Int32" />
+          <Property Name="utilizador" Type="Int32" />
+          <NavigationProperty Name="utilizador1" Relationship="Self.tarefa_utilizador" FromRole="tarefa" ToRole="utilizador" />
+        </EntityType>
+        <EntityType Name="utilizador">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="pass" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tarefas" Relationship="Self.tarefa_utilizador" FromRole="utilizador" ToRole="tarefa" />
+        </EntityType>
+        <Association Name="tarefa_utilizador">
+          <End Role="utilizador" Type="Self.utilizador" Multiplicity="0..1" />
+          <End Role="tarefa" Type="Self.tarefa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="utilizador">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tarefa">
+              <PropertyRef Name="utilizador" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AgendaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tarefas" EntityType="Self.tarefa" />
+          <EntitySet Name="utilizadors" EntityType="Self.utilizador" />
+          <AssociationSet Name="tarefa_utilizador" Association="Self.tarefa_utilizador">
+            <End Role="utilizador" EntitySet="utilizadors" />
+            <End Role="tarefa" EntitySet="tarefas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AgendaModelStoreContainer" CdmEntityContainer="AgendaEntities">
+          <EntitySetMapping Name="tarefas">
+            <EntityTypeMapping TypeName="AgendaModel.tarefa">
+              <MappingFragment StoreEntitySet="tarefa">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="titulo" ColumnName="titulo" />
+                <ScalarProperty Name="descricao" ColumnName="descricao" />
+                <ScalarProperty Name="importancia" ColumnName="importancia" />
+                <ScalarProperty Name="utilizador" ColumnName="utilizador" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="utilizadors">
+            <EntityTypeMapping TypeName="AgendaModel.utilizador">
+              <MappingFragment StoreEntitySet="utilizador">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

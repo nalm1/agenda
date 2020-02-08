@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AgendaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tarefa">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="titulo" Type="varchar" MaxLength="50" />
+    <Property Name="descricao" Type="varchar" MaxLength="500" />
+    <Property Name="importancia" Type="int" />
+    <Property Name="utilizador" Type="int" />
+  </EntityType>
+  <EntityType Name="utilizador">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="username" Type="varchar" MaxLength="30" />
+    <Property Name="pass" Type="varchar" MaxLength="30" />
+  </EntityType>
+  <Association Name="tarefa_utilizador">
+    <End Role="utilizador" Type="Self.utilizador" Multiplicity="0..1" />
+    <End Role="tarefa" Type="Self.tarefa" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="utilizador">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tarefa">
+        <PropertyRef Name="utilizador" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="AgendaModelStoreContainer">
+    <EntitySet Name="tarefa" EntityType="Self.tarefa" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="utilizador" EntityType="Self.utilizador" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="tarefa_utilizador" Association="Self.tarefa_utilizador">
+      <End Role="utilizador" EntitySet="utilizador" />
+      <End Role="tarefa" EntitySet="tarefa" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

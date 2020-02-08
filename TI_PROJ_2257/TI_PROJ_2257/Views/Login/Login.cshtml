@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+}
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/login.css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+
+<div class="login-page">
+    <div class="form">
+
+        <form class="register-form" method="post" action="login/login">
+            <input type="text" placeholder="name" name="username" />
+            <input type="password" placeholder="password" name="pass" />
+            <input type="text" placeholder="email address" name="mail" />
+            <button>create</button>
+            <p class="message">Already registered? <a href="#">Sign In</a></p>
+        </form>
+        <form class="login-form" method="post" action="login/login">
+            <input type="text" placeholder="username" name="username" />
+            <input type="password" placeholder="password" name="pass" />
+            <button>login</button>
+            <p class="message">Not registered? <a href="#">Create an account</a></p>
+        </form>
+    </div>
+</div>
+@Scripts.Render("~/bundles/jquery")
+<script>
+    $('.message a').click(function () {
+        $('form').animate({ height: "toggle", opacity: "toggle" }, "slow");
+    });
+</script>
